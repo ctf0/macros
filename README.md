@@ -16,7 +16,7 @@ Create your own custom macros by adding them to your `settings.json` (Code|File 
 For example:
 
 ```json
-"macros": {
+"macros.list": {
     "commentDown": [
         "editor.action.copyLinesDownAction",
         "cursorUp",
@@ -51,7 +51,7 @@ Notice that `macros.my_macro_name` has to match what you named your macro.
 Many commands accept arguments, like the "type" command which lets you insert text into the editor. For these cases use an object instead of a string when specifying the command to call in your `settings.json`:
 
 ```json
-"macros": {
+"macros.list": {
   "addSemicolon": [
     "cursorEnd",
       {"command": "type", "args": {"text": ";" }}
@@ -64,7 +64,7 @@ Many commands accept arguments, like the "type" command which lets you insert te
 Macros can also execute any of your snippets which is super neat. Just insert the same text that you would normally type for the snippet, followed by the `insertSnippet` command:
 
 ```json
-"macros": {
+"macros.list": {
   "doMySnippet": [
     {"command": "type", "args": {"text": "mySnippetPrefixHere" }},
     "insertSnippet"
