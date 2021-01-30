@@ -59,6 +59,9 @@ Many commands accept arguments, like the "type" command which lets you insert te
 }
 ```
 
+Reference of VScode commands that needs arguments can be found in [Built-in Commands](https://code.visualstudio.com/api/references/commands).
+Note that simple-commands that can be found in the Keyboard Shortcuts list doesn't use argument : [Built-in Commands#simple-commands](https://code.visualstudio.com/api/references/commands#simple-commands).
+
 > ## Executing Snippets As Part Of A Macro
 
 Macros can also execute any of your snippets which is super neat. Just insert the same text that you would normally type for the snippet, followed by the `insertSnippet` command:
