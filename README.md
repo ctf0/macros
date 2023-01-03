@@ -9,9 +9,7 @@ based on [macrosRe](https://github.com/l7ssha) + [New Features](#new)
 
 # Original
 
-> ## Create Custom Macros
-
-Create your own custom macros by adding them to your `settings.json` (Code|File > Preferences > User Settings)
+Create your custom macros by adding them to your `settings.json` (Code|File > Preferences > User Settings)
 
 For example:
 
@@ -79,7 +77,7 @@ Macros can also execute any of your snippets which is super neat. Just insert th
 
 # New
 
-> ## Run macro From command pallete
+> ## Run macro From command pallet
 
 simply use `Ctrl+P` or `Alt+P` depend on your os, and type `Macros:Execute` then chose the macro you want to execute.
 
