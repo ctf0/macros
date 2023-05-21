@@ -21,3 +21,7 @@
 
 - fix not showing some commands in the `qp-allow` / `qp-ignore` lists
 - wait for the commands execution
+
+### 0.1.2
+
+- make sure allow list is sorted according to the users order

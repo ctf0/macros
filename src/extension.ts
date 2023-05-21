@@ -42,6 +42,7 @@ function getQPList() {
 
     if (allow.length) {
         list = list.filter((item) => allow.some((ai) => ai === item));
+        list = list.sort((a, b) => allow.indexOf(a) - allow.indexOf(b));
     }
 
     if (ignore.length) {

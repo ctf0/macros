@@ -2,7 +2,7 @@
     "name": "macros",
     "displayName": "macros",
     "description": "automate repetitive actions with custom macros",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "publisher": "ctf0",
     "repository": "https://github.com/ctf0/macros",
     "engines": {
