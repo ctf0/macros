@@ -25,3 +25,7 @@
 ### 0.1.2
 
 - make sure allow list is sorted according to the users order
+
+### 1.0.0
+
+- add support for macro cmnds suggestions

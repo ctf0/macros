@@ -1,70 +1,60 @@
 import * as vscode from 'vscode';
+import MacrosSuggestions from './Providers/MacrosSuggestions';
+import Suggestions from './Providers/Suggestions';
+import * as util from './util';
 
-const disposables = [];
-const PKG_NAME = 'macros';
+let disposables = [];
+
 export function activate(context: vscode.ExtensionContext) {
+
+    util.readConfig();
+
     loadMacros(context);
 
     context.subscriptions.push(
-        vscode.commands.registerCommand(`${PKG_NAME}.execute`, async () => {
-            vscode.window.showQuickPick(getQPList()).then((selection) => {
-                if (selection) {
-                    vscode.commands.executeCommand(`${PKG_NAME}.${selection}`);
-                }
-            });
-        }),
         vscode.workspace.onDidChangeConfiguration((e) => {
-            if (e.affectsConfiguration(`${PKG_NAME}.list`)) {
+            if (e.affectsConfiguration(`${util.PACKAGE_NAME}.list`)) {
+                util.readConfig();
+
                 disposeMacros();
                 loadMacros(context);
             }
         }),
+        vscode.commands.registerCommand(`${util.PACKAGE_NAME}.execute`, async () => {
+            vscode.window.showQuickPick(getQPList()).then((selection) => {
+                if (selection) {
+                    vscode.commands.executeCommand(`${util.PACKAGE_NAME}.${selection}`);
+                }
+            });
+        }),
+        vscode.languages.registerCompletionItemProvider(
+            util.langs,
+            new Suggestions()
+        ),
+        vscode.languages.registerCompletionItemProvider(
+            util.langs,
+            new MacrosSuggestions(),
+            '.'
+        )
     );
 
 }
 
-function getSettings(key) {
-    return vscode.workspace.getConfiguration(PKG_NAME).get(key);
-}
-
-function getMacrosList() {
-    const ignore = ['has', 'get', 'update', 'inspect'];
-
-    return Object
-        .keys(getSettings('list'))
-        .filter((prop) => ignore.indexOf(prop) < 0);
-}
-
-function getQPList() {
-    let list = getMacrosList();
-    const allow = getSettings('qp-allow');
-    const ignore = getSettings('qp-ignore');
-
-    if (allow.length) {
-        list = list.filter((item) => allow.some((ai) => ai === item));
-        list = list.sort((a, b) => allow.indexOf(a) - allow.indexOf(b));
-    }
-
-    if (ignore.length) {
-        list = list.filter((item) => ignore.some((ai) => ai === item));
-    }
-
-    return list;
-}
+/* -------------------------------------------------------------------------- */
 
 function executeDelayCommand(time) {
     return new Promise((resolve) => setTimeout(() => resolve(), time));
 }
 
 async function executeCommandTimesOther(command, otherCmnd) {
-    const settings = getSettings('list');
-    const range = settings[otherCmnd].length;
+    const macrosList = util.macrosList;
+    const range = macrosList[otherCmnd].length;
 
     Array(range).map(async () => await vscode.commands.executeCommand(command));
 }
 
 async function executeCommandRepeat(command, times) {
-    Array(times).map(async () => await vscode.commands.executeCommand(`${PKG_NAME}.${command}`));
+    Array(times).map(async () => await vscode.commands.executeCommand(`${util.PACKAGE_NAME}.${command}`));
 }
 
 function executeCommand(action) {
@@ -88,25 +78,45 @@ function executeCommand(action) {
     return vscode.commands.executeCommand(action);
 }
 
+/* -------------------------------------------------------------------------- */
+
 function loadMacros(context) {
-    const settings = getSettings('list');
+    const list = util.list
 
-    getMacrosList().map((name) => {
-        const disposable = vscode.commands.registerCommand(
-            `${PKG_NAME}.${name}`,
-            () => settings[name].reduce(
-                async (promise, action) => {
-                    await promise;
-                    await executeCommand(action);
-                },
-                Promise.resolve(),
-            ),
+    util.macrosList.map((name) => {
+        disposables.push(
+            vscode.commands.registerCommand(
+                `${util.PACKAGE_NAME}.${name}`,
+                () => list[name].reduce(
+                    async (promise, action) => {
+                        await promise;
+                        await executeCommand(action);
+                    },
+                    Promise.resolve(),
+                ),
+            )
         );
-
-        disposables.push(disposable);
-    });
+    })
 
     context.subscriptions.push(...disposables);
+}
+
+function getQPList() {
+    let macrosList = util.macrosList;
+
+    const allow = util.allow;
+    const ignore = util.ignore
+
+    if (allow.length) {
+        macrosList = macrosList.filter((item) => allow.some((ai) => ai === item));
+        macrosList = macrosList.sort((a, b) => allow.indexOf(a) - allow.indexOf(b));
+    }
+
+    if (ignore.length) {
+        macrosList = macrosList.filter((item) => ignore.some((ai) => ai === item));
+    }
+
+    return macrosList;
 }
 
 function disposeMacros() {

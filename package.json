@@ -2,11 +2,11 @@
     "name": "macros",
     "displayName": "macros",
     "description": "automate repetitive actions with custom macros",
-    "version": "0.1.2",
+    "version": "1.0.0",
     "publisher": "ctf0",
     "repository": "https://github.com/ctf0/macros",
     "engines": {
-        "vscode": "^1.68.0"
+        "vscode": "^1.80.0"
     },
     "categories": [
         "Other"
@@ -41,6 +41,18 @@
                     },
                     "uniqueItems": true,
                     "description": "include commands to the quick-pick"
+                },
+                "macros.langIds": {
+                    "type": "array",
+                    "default": [
+                        "json",
+                        "jsonc"
+                    ],
+                    "items": {
+                        "type": "string"
+                    },
+                    "uniqueItems": true,
+                    "description": "language ids to show the cmnd names suggestion"
                 }
             }
         },
@@ -59,9 +71,9 @@
         "watch": "npm run esbuild"
     },
     "devDependencies": {
-        "@types/node": "^20.1.7",
-        "typescript": "^5.0.4",
-        "esbuild": "^0.17.19",
-        "@types/vscode": "^1.68.0"
+        "@types/node": "^20.8.9",
+        "typescript": "^5.2.2",
+        "esbuild": "^0.19.5",
+        "@types/vscode": "^1.80.0"
     }
 }
