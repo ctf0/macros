@@ -20,6 +20,11 @@ export function activate(context: vscode.ExtensionContext) {
                 loadMacros(context);
             }
         }),
+        vscode.workspace.onDidChangeConfiguration((e) => {
+            if (e.affectsConfiguration(`${util.PACKAGE_NAME}.qp-allow`)) {
+                util.readConfig();
+            }
+        }),
         vscode.commands.registerCommand(`${util.PACKAGE_NAME}.execute`, async () => {
             vscode.window.showQuickPick(getQPList()).then((selection) => {
                 if (selection) {

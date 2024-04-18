@@ -29,3 +29,7 @@
 ### 1.0.0
 
 - add support for macro cmnds suggestions
+
+### 1.1.0
+
+- fix not reflecting `"macros.qp-allow"` list changes when executing `Macros: Execute`
