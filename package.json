@@ -2,7 +2,7 @@
     "name": "macros",
     "displayName": "macros",
     "description": "automate repetitive actions with custom macros",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "publisher": "ctf0",
     "repository": "https://github.com/ctf0/macros",
     "engines": {
@@ -71,9 +71,9 @@
         "watch": "npm run esbuild"
     },
     "devDependencies": {
-        "@types/node": "^20.12.7",
-        "typescript": "^5.4.5",
-        "esbuild": "^0.20.2",
+        "@types/node": "^22.13.1",
+        "typescript": "^5.7.3",
+        "esbuild": "^0.25.0",
         "@types/vscode": "^1.85.0"
     }
 }
